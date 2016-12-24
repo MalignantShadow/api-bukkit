@@ -1,0 +1,5 @@
+name: ShadowAPI
+main: info.malignantshadow.api.bukkit.plugin.ShadowAPI
+version: 1.1
+description: API by MalignantShadow
+author: MalignantShadow
