@@ -79,7 +79,7 @@ public class BukkitHelpListing extends HelpListing {
 	
 	@Override
 	public String formatFullCommand(String full) {
-		return _colors.getSeparatorColor() + "/" + _colors.getAliasColor() + full;
+		return _colors.getAliasColor() + full;
 	}
 	
 	@Override
