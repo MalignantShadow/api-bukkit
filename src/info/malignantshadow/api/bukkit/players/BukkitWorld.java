@@ -58,6 +58,8 @@ public class BukkitWorld {
 			
 			if (free == 2)
 				return new Location(world, x + 0.5, y - 1, z + 0.5);
+			
+			y++;
 		}
 		
 		return null;
