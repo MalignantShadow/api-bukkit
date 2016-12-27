@@ -118,9 +118,9 @@ public class BukkitHelpListing extends HelpListing {
 		String alias = _colors.getAliasColor().toString();
 		String separator = _colors.getSeparatorColor().toString();
 		String desc = _colors.getDescriptionColor().toString();
-		String header = String.format("%sCommand Help: %s/%s <command>", desc, separator, alias + getFullCmd());
+		String header = String.format("%sCommand Help: %s <command> ", desc, alias + getFullCmd());
 		if (paginated.hasPage(2))
-			header += String.format("%sPage %s/%s", desc, page + alias + separator, paginated.pages());
+			header += String.format("%sPage %s/%s", desc, page + alias + separator, alias + paginated.pages());
 		shownHelp.add(0, header);
 		shownHelp.add(1, desc + "Commands:");
 		
