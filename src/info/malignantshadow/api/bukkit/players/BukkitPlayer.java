@@ -175,26 +175,50 @@ public class BukkitPlayer {
 	}
 	
 	public Entity getTargetEntity(int range) {
-		List<Entity> near = getHandleAnd((h) -> h.getNearbyEntities(range, range, range));
-		if (near == null || near.isEmpty())
+		Object target = getLastTwoTargets(false, true, range)[0];
+		if (target == null || !(target instanceof Entity))
 			return null;
 		
+		return (Entity) target;
+	}
+	
+	public Object[] getLastTwoTargets(boolean includeBlocks, boolean includeEntities) {
+		return getLastTwoTargets(includeBlocks, includeEntities, DEF_RANGE);
+	}
+	
+	//first index is last in line of sight
+	public Object[] getLastTwoTargets(boolean includeBlocks, boolean includeEntities, int range) {
+		if (!(includeBlocks || includeEntities))
+			return null;
+		
+		List<Entity> entities = null;
+		if (includeEntities)
+			entities = getHandleAnd((h) -> h.getNearbyEntities(range, range, range));
+		
 		BlockIterator it = new BlockIterator(getHandle(), range);
+		Object[] targets = new Object[2];
 		while (it.hasNext()) {
 			Block b = it.next();
 			if (!b.getChunk().isLoaded())
-				return null;
-			for (Entity e : near) {
-				Location loc = e.getLocation();
-				if (loc.getBlockX() == b.getX() &&
-					loc.getBlockY() == b.getY() &&
-					loc.getBlockZ() == b.getZ())
-					return e;
+				break;
+			
+			Object target = includeBlocks ? b : null;
+			if (entities != null && !entities.isEmpty())
+				for (Entity e : entities) {
+					Location loc = e.getLocation();
+					if (loc.getBlockX() == b.getX() &&
+						loc.getBlockY() == b.getY() &&
+						loc.getBlockZ() == b.getZ())
+						target = e;
+				}
+			
+			if (target != null) {
+				targets[1] = targets[0];
+				targets[0] = target;
 			}
-			if (b.getType() != Material.AIR) // line of sight end
-				return null;
 		}
-		return null;
+		
+		return targets;
 	}
 	
 	public Block getTargetBlock() {
@@ -202,7 +226,7 @@ public class BukkitPlayer {
 	}
 	
 	public Block getTargetBlock(int range) {
-		return getHandleAnd((h) -> h.getTargetBlock((Set<Material>) null, range));
+		return (Block) getLastTwoTargets(true, false, range)[0];
 	}
 	
 	public Location getTargetLocation() {
