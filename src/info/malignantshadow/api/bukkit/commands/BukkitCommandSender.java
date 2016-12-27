@@ -8,8 +8,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.minecart.CommandMinecart;
 
-import info.malignantshadow.api.bukkit.BukkitMessages;
-import info.malignantshadow.api.bukkit.players.BukkitPlayer;
+import info.malignantshadow.api.bukkit.helpers.BukkitMessages;
+import info.malignantshadow.api.bukkit.helpers.BukkitPlayer;
 import info.malignantshadow.api.commands.CommandSender;
 
 public class BukkitCommandSender extends CommandSender {

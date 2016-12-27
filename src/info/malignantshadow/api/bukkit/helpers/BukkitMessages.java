@@ -1,4 +1,4 @@
-package info.malignantshadow.api.bukkit;
+package info.malignantshadow.api.bukkit.helpers;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

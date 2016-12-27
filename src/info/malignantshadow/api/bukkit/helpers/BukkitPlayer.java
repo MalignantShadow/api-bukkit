@@ -1,4 +1,4 @@
-package info.malignantshadow.api.bukkit.players;
+package info.malignantshadow.api.bukkit.helpers;
 
 import java.util.List;
 import java.util.Set;
@@ -16,8 +16,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.BlockIterator;
-
-import info.malignantshadow.api.bukkit.BukkitMessages;
 
 /**
  * Represents a player on a Bukkit server. This class holds now reference no any {@link Player} object, so instances

@@ -1,4 +1,4 @@
-package info.malignantshadow.api.bukkit.players;
+package info.malignantshadow.api.bukkit.helpers;
 
 import java.util.ArrayList;
 import java.util.List;
