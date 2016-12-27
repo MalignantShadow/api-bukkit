@@ -33,7 +33,7 @@ import info.malignantshadow.api.bukkit.BukkitMessages;
  */
 public class BukkitPlayer {
 	
-	private static final int DEF_RANGE = 500;
+	public static final int DEF_RANGE = 500;
 	
 	private String _name;
 	private UUID _id;
