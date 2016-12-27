@@ -215,6 +215,8 @@ public class BukkitPlayer {
 			if (target != null) {
 				targets[1] = targets[0];
 				targets[0] = target;
+				if (includeBlocks && b.getType() != Material.AIR)
+					break;
 			}
 		}
 		
