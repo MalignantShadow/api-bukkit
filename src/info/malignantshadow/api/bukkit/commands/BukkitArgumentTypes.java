@@ -5,15 +5,14 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
+import info.malignantshadow.api.bukkit.helpers.BukkitColor;
 import info.malignantshadow.api.util.ListUtil;
-import info.malignantshadow.api.util.StringUtil;
 import info.malignantshadow.api.util.arguments.Argument;
 import info.malignantshadow.api.util.arguments.ArgumentTypes;
 
@@ -45,48 +44,14 @@ public final class BukkitArgumentTypes {
 	};
 	
 	/**
-	 * Parse the argument as a {@link DyeColor}.
+	 * Parse the argument as a {@link BukkitColor} object. Only names of colors are allowed. For uses with hex strings, use {@link #COLOR}
 	 */
-	public static final Argument.Type<DyeColor> DYE_COLOR = (input) -> {
-		if (input == null || input.isEmpty())
-			return null;
-		
-		if (StringUtil.eic(input, "black", "shadow"))
-			return DyeColor.BLACK;
-		else if (StringUtil.eic(input, "blue", "bleu", "bloo"))
-			return DyeColor.BLUE;
-		else if (StringUtil.eic(input, "brown"))
-			return DyeColor.BROWN;
-		else if (StringUtil.eic(input, "cyan", "aqua"))
-			return DyeColor.CYAN;
-		else if (StringUtil.eic(input, "gray", "grey"))
-			return DyeColor.GRAY;
-		else if (StringUtil.eic(input, "light_blue", "light_bleu", "light_bloo", "light-blue", "light-bleu", "light-bloo"))
-			return DyeColor.LIGHT_BLUE;
-		else if (StringUtil.eic(input, "lime", "light_green", "light-green"))
-			return DyeColor.LIME;
-		else if (StringUtil.eic(input, "magenta", "dark_pink", "dark-pink"))
-			return DyeColor.MAGENTA;
-		else if (StringUtil.eic(input, "orange"))
-			return DyeColor.ORANGE;
-		else if (StringUtil.eic(input, "pink"))
-			return DyeColor.PINK;
-		else if (StringUtil.eic(input, "purple"))
-			return DyeColor.PURPLE;
-		else if (StringUtil.eic(input, "red"))
-			return DyeColor.RED;
-		else if (StringUtil.eic(input, "silver", "light_gray", "light_grey", "light-gray", "light-grey"))
-			return DyeColor.SILVER;
-		else if (StringUtil.eic(input, "white", "shine"))
-			return DyeColor.WHITE;
-		
-		return null;
-	};
+	public static final Argument.Type<BukkitColor> BUKKIT_COLOR = ArgumentTypes.enumValue(BukkitColor.values());
 	
 	/**
-	 * Parse the argument as a Bukkit {@link Color} object.
+	 * Parse the argument as a {@link Color} object. The input can be a hex string starting with '#' or a name of a color.
 	 */
-	public static final Argument.Type<Color> BUKKIT_COLOR = (input) -> {
+	public static final Argument.Type<Color> COLOR = (input) -> {
 		if (input == null || input.isEmpty())
 			return null;
 		
@@ -108,13 +73,13 @@ public final class BukkitArgumentTypes {
 				// cannot parse as hex
 				return null;
 			}
+		} else {
+			BukkitColor c = BUKKIT_COLOR.getValue(input);
+			if (c == null)
+				return null;
+			
+			return c.getColor();
 		}
-		
-		DyeColor dye = DYE_COLOR.getValue(input);
-		if (dye != null)
-			return dye.getColor();
-		
-		return null;
 	};
 	
 	/**
