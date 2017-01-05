@@ -5,7 +5,9 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
@@ -14,7 +16,9 @@ import org.bukkit.potion.PotionEffectType;
 import info.malignantshadow.api.bukkit.helpers.BukkitColor;
 import info.malignantshadow.api.util.ListUtil;
 import info.malignantshadow.api.util.arguments.Argument;
+import info.malignantshadow.api.util.arguments.ArgumentList;
 import info.malignantshadow.api.util.arguments.ArgumentTypes;
+import info.malignantshadow.api.util.arguments.ParsedArguments;
 
 /**
  * Utility class holding {@link Argument.Type}s relating to Bukkit objects.
@@ -26,6 +30,27 @@ import info.malignantshadow.api.util.arguments.ArgumentTypes;
 public final class BukkitArgumentTypes {
 	
 	private BukkitArgumentTypes() {
+	}
+	
+	// [world] <x> <y> <z> [yaw] [pitch]
+	private static final ArgumentList LOCATION_ARG_LIST = new ArgumentList();
+	
+	static {
+		LOCATION_ARG_LIST.add(new Argument("world", "", false)
+			.withAcceptedTypes(Bukkit::getWorld)
+			.withDefault(Bukkit.getWorlds().get(0)));
+		LOCATION_ARG_LIST.add(new Argument("x", "", true)
+			.withAcceptedTypes(ArgumentTypes.DOUBLE));
+		LOCATION_ARG_LIST.add(new Argument("y", "", true)
+			.withAcceptedTypes(ArgumentTypes.DOUBLE));
+		LOCATION_ARG_LIST.add(new Argument("z", "", true)
+			.withAcceptedTypes(ArgumentTypes.DOUBLE));
+		LOCATION_ARG_LIST.add(new Argument("yaw", "", false)
+			.withAcceptedTypes(ArgumentTypes.DOUBLE)
+			.withDefault(0));
+		LOCATION_ARG_LIST.add(new Argument("pitch", "", false)
+			.withAcceptedTypes(ArgumentTypes.DOUBLE)
+			.withDefault(0));
 	}
 	
 	public static final Argument.Type<Player> ONLINE_PLAYER = (input) -> {
@@ -80,6 +105,21 @@ public final class BukkitArgumentTypes {
 			
 			return c.getColor();
 		}
+	};
+	
+	public static final Argument.Type<Location> LOCATION = (input) -> {
+		String[] split = input.split("\\s+");
+		if (split.length < LOCATION_ARG_LIST.getMinimum())
+			return null;
+		
+		ParsedArguments args = new ParsedArguments(LOCATION_ARG_LIST, split);
+		World w = (World) args.get("world");
+		double x = (Double) args.get("x");
+		double y = (Double) args.get("y");
+		double z = (Double) args.get("z");
+		double yaw = (Double) args.get("yaw");
+		double pitch = (Double) args.get("pitch");
+		return new Location(w, x, y, z, (float) yaw, (float) pitch);
 	};
 	
 	/**
