@@ -108,7 +108,7 @@ public final class BukkitArgumentTypes {
 	};
 	
 	public static final Argument.Type<Location> LOCATION = (input) -> {
-		String[] split = input.split("\\s+");
+		String[] split = input.split(",+");
 		if (split.length < LOCATION_ARG_LIST.getMinimum())
 			return null;
 		
