@@ -42,6 +42,14 @@ public class BukkitPlayerList {
 		return true;
 	}
 
+	public boolean add(BukkitPlayer p) {
+		if (p == null)
+			return false;
+
+		_players.add(p);
+		return true;
+	}
+
 	public boolean contains(OfflinePlayer p) {
 		if (p == null)
 			return false;
