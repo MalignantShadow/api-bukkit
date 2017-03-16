@@ -3,8 +3,10 @@ package info.malignantshadow.api.bukkit.helpers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
 import info.malignantshadow.api.util.ListUtil;
@@ -72,6 +74,14 @@ public class BukkitPlayerList {
 		return player != null && remove(player.getUniqueId());
 	}
 
-	//TODO: utilities, such as teleportation, etc.
+	public void teleportAll(Location location) {
+		teleportIf(location, (p) -> true);
+	}
+
+	public void teleportIf(Location location, Predicate<BukkitPlayer> predicate) {
+		for (BukkitPlayer p : _players)
+			if (predicate.test(p))
+				p.teleport(location);
+	}
 
 }
