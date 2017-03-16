@@ -120,6 +120,10 @@ public class BukkitPlayer {
 		return Bukkit.getPlayer(_id);
 	}
 	
+	public OfflinePlayer getOfflinePlayer() {
+		return Bukkit.getOfflinePlayer(_id);
+	}
+	
 	public <R> R getHandleAnd(Function<Player, R> f) {
 		return getHandleAnd(null, f);
 	}
@@ -160,12 +164,12 @@ public class BukkitPlayer {
 		teleport(BukkitWorld.getSafePosition(getTargetLocation(ignoreEntities, range)));
 	}
 	
-	public void sendMessage(String message) {
-		sendMessage(message, BukkitMessages.DEFAULT_COLOR_CHAR);
+	public void sendMessage(String message, Object... args) {
+		sendMessage(message, BukkitMessages.DEFAULT_COLOR_CHAR, args);
 	}
 	
-	public void sendMessage(String message, char colorChar) {
-		getHandleThen((h) -> h.sendMessage(BukkitMessages.format(colorChar, message)));
+	public void sendMessage(String message, char colorChar, Object... args) {
+		getHandleThen((h) -> h.sendMessage(BukkitMessages.format(colorChar, String.format(message, args))));
 	}
 	
 	public Entity getTargetEntity() {
